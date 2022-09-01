@@ -2,6 +2,7 @@
 - npm i
 - npm run start:dev
 
+<a href='https://github.com/FullstackAcademy/dealers-choice-react/blob/main/wireframe.png'>Wireframe</a>
 
 # requirements
 
