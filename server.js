@@ -34,6 +34,10 @@ app.use('/dist', express.static('dist'));
 
 app.get('/', (req, res)=> res.sendFile(path.join(__dirname, 'index.html')));
 
+app.get('/hotsauces', async (req, res, next) => {
+  res.send(await HotSauce.findAll());
+});
+
 const port = process.env.PORT || 3000;
 
 const init = async ()=> {
