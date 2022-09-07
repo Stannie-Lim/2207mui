@@ -29,6 +29,7 @@ const syncAndSeed = async () => {
 
 const app = express();
 const path = require('path');
+app.use(express.json());
 
 app.use('/dist', express.static('dist'));
 
@@ -36,6 +37,14 @@ app.get('/', (req, res)=> res.sendFile(path.join(__dirname, 'index.html')));
 
 app.get('/hotsauces', async (req, res, next) => {
   res.send(await HotSauce.findAll());
+});
+
+app.post('/hotsauce', async (req, res, next) => {
+  console.log(req.body);
+  // we want to create a new database entry with the name and intensity that that user typed in
+  const { name, intensity } = req.body;
+  const hotsauce = await HotSauce.create({ name, intensity });
+  res.send(hotsauce);
 });
 
 const port = process.env.PORT || 3000;

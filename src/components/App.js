@@ -6,8 +6,8 @@ import axios from 'axios';
 // 2. intensity
 const Card = (props) => {
   return (
-    <div style={{ border: '1px solid black', padding: '2rem', margin: '1rem', }}>
-      <h1>{props.name}</h1>
+    <div style={{ border: '1px solid black', padding: '0.5rem', margin: '0.1rem', }}>
+      <h6>{props.name}</h6>
       <p>This is the intensity: {props.intensity}</p>
     </div>
   );
@@ -68,10 +68,48 @@ const App = () => {
   // this gets executed twice
   // 1. before the component gets mounted. the useEffect did not get called yet
   // 2. after the component got mounted. the useEffect did get called
-  console.log(hotsauces);
+  // console.log(hotsauces);
+
+  const [name, setName] = useState('');
+  const [intensity, setIntensity] = useState(0);
+
+  const onChangeName = (event) => {
+    // sets the name to whatever the user typed
+    setName(event.target.value);
+  }
+
+  const onChangeIntensity = (event) => {
+    setIntensity(event.target.value);
+  };
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    
+    // we want to pass in two pieces of data
+    // to this post request
+    // 1. name
+    // 2. intensity
+    const response = await axios.post('/hotsauce', { name, intensity });
+
+    // console.log(response.data);
+    // console.log(hotsauces); // [some items in here]
+
+    setHotsauces([...hotsauces, response.data]);
+  };
 
   return (
     <>
+      {/*
+      two things to know about an input field
+        1. you can set the value using javascript
+        2. you can have pass onChange function using javascript. whenever user types something, this function gets called
+      */}
+      <form onSubmit={onSubmit}>
+        <input placeholder="name" value={name} onChange={onChangeName} />
+        <input placeholder="intensity" value={intensity} onChange={onChangeIntensity} type='number' />
+        <button>Create</button>
+      </form>
+
       {
         // the key has to be 
         // 1. fully unique
